@@ -8,111 +8,217 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>gn-math</title>
-    <style>
-/* ===== GLOBAL RESET ===== */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
-                 Roboto, Helvetica, Arial, sans-serif;
-}
+        <style>
+    :root {
+        --primary-color: #1e90ff;
+        --secondary-color: #444;
+        --bg-dark: #222;
+        --bg-light: #f4f4f4;
+        --text-light: #fff;
+        --text-dark: #000;
+        --shadow: rgba(0, 0, 0, 0.4);
+        --radius: 10px;
+        --transition: 0.3s;
+    }
 
-/* ===== PAGE BACKGROUND ===== */
-html, body {
-    min-height: 100%;
-    background: radial-gradient(
-        circle at top,
-        #1b2a4a 0%,
-        #0f172a 45%,
-        #020617 100%
-    );
-    color: #e5e7eb;
-}
+    body {
+        font-family: 'Segoe UI', Arial, sans-serif;
+        background: var(--bg-dark);
+        color: var(--text-light);
+        margin: 0;
+        padding: 0;
+        transition: background var(--transition), color var(--transition);
+    }
 
-/* ===== MAIN CONTENT WRAPPER ===== */
-#content,
-section#content {
-    max-width: 1300px;
-    margin: 0 auto;
-    padding: 32px 24px;
-}
+    h1 {
+        text-align: center;
+        font-size: 3em;
+        background: linear-gradient(90deg, #1e90ff, #00bfff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin: 20px 0;
+    }
 
-/* ===== CARD GRID ===== */
-#content img,
-#content > div {
-    border-radius: 16px;
-}
+    #searchBar {
+        display: block;
+        margin: 20px auto;
+        padding: 12px 15px;
+        width: 80%;
+        max-width: 800px;
+        border: 2px solid var(--secondary-color);
+        border-radius: var(--radius);
+        font-size: 16px;
+        background: var(--secondary-color);
+        color: var(--text-light);
+        box-shadow: 0 4px 8px var(--shadow);
+        transition: all var(--transition);
+    }
 
-/* ===== CARD CONTAINERS ===== */
-#content div[style*="background"],
-#content div {
-    background: linear-gradient(180deg, #0b1220, #020617);
-    border-radius: 18px;
-    box-shadow:
-        0 10px 25px rgba(0,0,0,.45),
-        inset 0 1px 0 rgba(255,255,255,.04);
-}
+    #searchBar:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 4px 12px rgba(30, 144, 255, 0.6);
+    }
 
-/* ===== IMAGES (GAME THUMBNAILS / ICONS) ===== */
-img {
-    border-radius: 14px;
-    display: block;
-    width: 100%;
-    height: auto;
-}
+    #container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 15px;
+        max-width: 1000px;
+        margin: 20px auto;
+        padding: 0 10px;
+    }
 
-/* ===== BUTTONS ===== */
-button,
-span[onclick],
-div[onclick] {
-    background: linear-gradient(180deg, #ff2d55, #e11d48);
-    color: #fff;
-    border-radius: 12px;
-    padding: 12px 18px;
-    font-weight: 600;
-    cursor: pointer;
-    box-shadow:
-        0 6px 18px rgba(225,29,72,.45);
-    transition: transform .15s ease, box-shadow .15s ease;
-}
+    .zone-item {
+        background: var(--secondary-color);
+        border-radius: var(--radius);
+        overflow: hidden;
+        text-align: center;
+        cursor: pointer;
+        color: var(--text-light);
+        box-shadow: 0 6px 12px var(--shadow);
+        transition: transform var(--transition), box-shadow var(--transition);
+    }
 
-button:hover,
-span[onclick]:hover,
-div[onclick]:hover {
-    transform: translateY(-2px);
-    box-shadow:
-        0 12px 30px rgba(225,29,72,.6);
-}
+    .zone-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 20px var(--shadow);
+    }
 
-/* ===== TEXT ===== */
-h1, h2, h3, p {
-    color: #e5e7eb;
-}
+    .zone-item img {
+        width: 100%;
+        height: 120px;
+        object-fit: cover;
+        transition: transform var(--transition);
+    }
 
-p {
-    line-height: 1.55;
-    color: #cbd5f5;
-}
+    .zone-item img:hover {
+        transform: scale(1.05);
+    }
 
-/* ===== SUBTLE HOVER LIFT ===== */
-#content div:hover {
-    transform: translateY(-4px);
-    transition: transform .18s ease;
-}
+    .zone-item button {
+        width: 100%;
+        padding: 10px;
+        border: none;
+        background: var(--primary-color);
+        color: var(--text-light);
+        font-weight: bold;
+        cursor: pointer;
+        transition: background var(--transition), transform var(--transition);
+        border-radius: 0 0 var(--radius) var(--radius);
+    }
 
-/* ===== SCROLLBAR (OPTIONAL BUT PRETTY) ===== */
-::-webkit-scrollbar {
-    width: 10px;
-}
-::-webkit-scrollbar-thumb {
-    background: #334155;
+    .zone-item button:hover {
+        background: #0066cc;
+        transform: scale(1.03);
+    }
+
+  #zoneViewer {
+    display: none; /* show with JS */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90vw;
+    height: 90vh;
+    max-width: 1200px;
+    max-height: 90vh;
+    background: rgba(30, 30, 30, 0.95);
     border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+    z-index: 2000; /* higher than data panel */
+    overflow: hidden;
 }
-::-webkit-scrollbar-track {
-    background: #020617;
+
+#zoneViewer iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 10px;
+    background: #333;
 }
-        </style>
+
+
+    #zoneInfo {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 15px;
+        background: rgba(50, 50, 50, 0.9);
+        font-size: 16px;
+        color: var(--text-light);
+    }
+
+    #controls button {
+        padding: 6px 12px;
+        margin-left: 5px;
+        border-radius: 5px;
+        background: var(--primary-color);
+        border: none;
+        color: var(--text-light);
+        cursor: pointer;
+        transition: all var(--transition);
+    }
+
+    #controls button:hover {
+        background: #0066cc;
+        transform: scale(1.05);
+    }
+
+    #darkModeToggle {
+        position: fixed;
+        bottom: 25px;
+        right: 25px;
+        padding: 12px 18px;
+        border-radius: var(--radius);
+        background: var(--primary-color);
+        color: var(--text-light);
+        font-weight: bold;
+        cursor: pointer;
+        box-shadow: 0 6px 12px var(--shadow);
+        transition: all var(--transition);
+        z-index: 1000;
+    }
+
+    #darkModeToggle:hover {
+        background: #0066cc;
+        transform: scale(1.05);
+    }
+
+    /* LIGHT MODE */
+    body.light-mode {
+        background: var(--bg-light);
+        color: var(--text-dark);
+    }
+
+    body.light-mode h1 {
+        -webkit-text-fill-color: var(--text-dark);
+    }
+
+    body.light-mode #searchBar {
+        background: #fff;
+        color: #000;
+        border-color: #ccc;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    body.light-mode .zone-item {
+        background: #fff;
+        color: #000;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    body.light-mode #zoneViewer {
+        background: #fff;
+        box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    }
+
+    body.light-mode #zoneInfo {
+        background: #eee;
+        color: #000;
+    }
+    </style>
+
 </head>
 
 <body class="dark-mode">

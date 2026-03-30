@@ -6495,7 +6495,7 @@
     "id": 735,
     "name": "Famidash",
     "cover": "{COVER_URL}/735.png",
-    "url": "{HTML_URL}/735.html",
+    "url": "https://cdn.jsdelivr.net/gh/newtryer7w537r63/famidash-copy@main/index.html",
     "author": "Zephyrside",
     "authorLink": "https://github.com/tfdsoft/famidash",
     "special": [
